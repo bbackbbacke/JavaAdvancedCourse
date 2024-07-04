@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Setter;
 
 @Getter
 @Table(name = "restaurants")
@@ -46,6 +47,10 @@ public class Restaurant extends TimeStampEntity {
     private RestaurntCategoryEnum category;
 
     private String description;
+
+    @Setter
+    @Column(nullable = false)
+    private int likeCount;
 
     public Restaurant(User user, String name, String address, RestaurntCategoryEnum category, String description) {
         this.user = user;

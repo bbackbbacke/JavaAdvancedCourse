@@ -10,14 +10,13 @@ import com.sparta.redirect_outsourcing.domain.review.repository.ReviewAdapter;
 import com.sparta.redirect_outsourcing.domain.user.entity.User;
 import com.sparta.redirect_outsourcing.exception.custom.review.ReviewOverRatingException;
 import com.sparta.redirect_outsourcing.exception.custom.user.UserNotMatchException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -62,6 +61,7 @@ public class ReviewService {
         reviewAdapter.delete(review);
     }
 
+    // 리뷰들 조회
     @Transactional(readOnly = true)
     public List<ReviewResponseDto> getReviews(Long restaurantsId){
         List<Review> reviews = reviewAdapter.findByRestaurantId(restaurantsId);
@@ -71,5 +71,16 @@ public class ReviewService {
         }
         return responseReviews;
     }
+
+    // 리뷰 단건 조회시, 개시글의 좋아요 개수 필드 추가
+    @Transactional(readOnly = true)
+    public ReviewResponseDto getReview(Long reviewId){
+        Review review = reviewAdapter.findById(reviewId);
+        long likeCount = reviewAdapter.countLikesById(reviewId);
+        return ReviewResponseDto.of(review, likeCount);
+    }
+
+
+
 
 }

@@ -32,6 +32,9 @@ public enum ResponseCodeEnum {
     REVIEW_NOT_FOUND(HttpStatus.NOT_FOUND,"리뷰를 찾을 수 없습니다."),
     REVIEW_OVER_RATING(HttpStatus.BAD_REQUEST,"평점은 1에서5 사이 만 가능합니다."),
 
+    // 좋아요
+    CANT_LIKE_MYSELF(HttpStatus.FORBIDDEN, "자신의 리뷰에 좋아요를 할 수 없습니다."),
+    ALREADY_LIKE(HttpStatus.BAD_REQUEST, "이미 좋아요한 리뷰입니다.") ,
 
     // 장바구니
     CART_NOT_FOUND(HttpStatus.NOT_FOUND, "장바구니를 찾을 수 없습니다."),

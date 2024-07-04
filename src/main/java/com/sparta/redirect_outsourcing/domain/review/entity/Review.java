@@ -49,4 +49,7 @@ public class Review extends TimeStampEntity {
         this.rating = requestDto.getRating();
         this.comment = requestDto.getComment();
     }
+
+
+
 }

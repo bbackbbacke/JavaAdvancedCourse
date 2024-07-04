@@ -5,6 +5,8 @@ import com.sparta.redirect_outsourcing.domain.review.entity.Review;
 import com.sparta.redirect_outsourcing.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -28,5 +30,9 @@ public class LikeAdapter {
 
     public boolean existsByUserAndReview(User user, Review review) {
         return likeRepository.existsByUserAndReview(user, review);
+    }
+
+    public Page<Like> findByUserId(Long userId, Pageable pageable) {
+        return likeRepository.findByUserId(userId, pageable);
     }
 }

@@ -63,14 +63,15 @@ public class WebSecurityConfig {
                 sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        http.authorizeHttpRequests((authorizeHttpRequests) ->
-                authorizeHttpRequests
+            http.authorizeHttpRequests((authorizeHttpRequests) ->
+                    authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
                         .requestMatchers("/", "/error", "/users/signup", "/users/login").permitAll() // 메인 페이지, 에러 페이지, 회원가입, 로그인 요청 허가
                         .requestMatchers(HttpMethod.GET, "/users/*").permitAll() // GET 요청의 /users/{userId} 허가
                         .requestMatchers(HttpMethod.GET, "/users/kakao/*").permitAll() // 카카오 로그인, 콜백 허용
                         .requestMatchers(HttpMethod.GET, "/restaurants/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/menus/**").permitAll()
+                        .requestMatchers("/reviews/**").permitAll()
                         .anyRequest().authenticated() // 그 외 모든 요청 인증처리
         );
 

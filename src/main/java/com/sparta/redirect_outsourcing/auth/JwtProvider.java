@@ -55,7 +55,7 @@ public class JwtProvider {
 
     // ACCESS_TOKEN생성
     public String createAccessToken(String username) {
-        long ACCESS_TOKEN_TIME = 30 * 60 * 1000L*60 * 60 * 60; // 액세스 토큰의 유효 기간을 30분으로 설정
+        long ACCESS_TOKEN_TIME = 24 * 60 * 60 * 1000L; // 24시간(Test용) // 액세스 토큰의 유효 기간을 30분으로 설정
         return createToken(username, ACCESS_TOKEN_TIME);
     }
 

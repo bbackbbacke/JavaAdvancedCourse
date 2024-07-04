@@ -11,11 +11,20 @@ public class ReviewResponseDto {
     private String comment;
     private int likeCount;
 
-    public static ReviewResponseDto of(Review review) {
+    public static ReviewResponseDto of(Review review, long likeCount) {
         return ReviewResponseDto.builder()
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .likeCount(review.getLikeCount())
                 .build();
     }
+
+    public static ReviewResponseDto of(Review review) {
+        return ReviewResponseDto.builder()
+            .rating(review.getRating())
+            .comment(review.getComment())
+            .likeCount(review.getLikeCount())
+            .build();
+    }
+
 }

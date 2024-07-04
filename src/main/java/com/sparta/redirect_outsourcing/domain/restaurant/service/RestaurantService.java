@@ -5,13 +5,11 @@ import com.sparta.redirect_outsourcing.domain.restaurant.dto.requestDto.Restaura
 import com.sparta.redirect_outsourcing.domain.restaurant.dto.responseDto.RestaurantResponseDto;
 import com.sparta.redirect_outsourcing.domain.restaurant.entity.Restaurant;
 import com.sparta.redirect_outsourcing.domain.restaurant.repository.RestaurantAdapter;
-import com.sparta.redirect_outsourcing.domain.restaurant.repository.RestaurantRepository;
 import com.sparta.redirect_outsourcing.domain.user.entity.User;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
@@ -31,10 +29,11 @@ public class RestaurantService {
         return restaurantAdapter.findAll().stream().map(RestaurantResponseDto::new).toList();
     }
 
-    /************특정 가게 조회*************/
+    /************가게 단건 조회시, 가게의 좋아요 개수 필드 추가*************/
     public RestaurantResponseDto getOneRestaurant(Long restaurantId) {
         Restaurant restaurant = restaurantAdapter.findById(restaurantId);
-        return new RestaurantResponseDto(restaurant);
+        long likeCount = restaurantAdapter.countLikesById(restaurantId);
+        return RestaurantResponseDto.of(restaurant, likeCount);
     }
 
     /************가게 정보 변경*************/
@@ -55,4 +54,6 @@ public class RestaurantService {
         restaurantAdapter.delete(restaurant);
         return new RestaurantResponseDto(restaurant);
     }
+
+
 }
