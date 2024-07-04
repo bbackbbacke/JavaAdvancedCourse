@@ -1,6 +1,7 @@
 package com.sparta.redirect_outsourcing.domain.restaurant.repository;
 
 import com.sparta.redirect_outsourcing.common.ResponseCodeEnum;
+import com.sparta.redirect_outsourcing.domain.restaurant.dto.responseDto.LikedRestaurantResponseDto;
 import com.sparta.redirect_outsourcing.domain.restaurant.entity.Restaurant;
 import com.sparta.redirect_outsourcing.exception.custom.restaurant.RestaurantNotFoundException;
 import java.util.List;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class RestaurantAdapter {
+public abstract class RestaurantAdapter {
 
     private final RestaurantRepository restaurantRepository;
 
@@ -36,6 +37,9 @@ public class RestaurantAdapter {
     }
 
     public Page<Restaurant> findByLikedByUserId(Long userId, Pageable pageable) {
-        return restaurantRepository.findByLikedByUserId(userId, pageable);
+        return restaurantRepository.findLikedRestaurantsByUserId(userId, pageable);
     }
+
+
+    public abstract Page<Restaurant> findLikedRestaurantsByUserId(Long userId, Pageable pageable);
 }

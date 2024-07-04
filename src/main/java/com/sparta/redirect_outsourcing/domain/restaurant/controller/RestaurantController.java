@@ -11,6 +11,10 @@ import com.sparta.redirect_outsourcing.domain.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -74,4 +78,14 @@ public class RestaurantController {
         RestaurantResponseDto responseDto = restaurantService.deleteRestaurant(restaurantId,user);
         return of(HttpStatus.OK, responseDto.getName() + "(이)가 삭제되었습니다.");
     }
+
+    @GetMapping("/liked")
+    public ResponseEntity<DataResponseDto<Page<RestaurantResponseDto>>> getLikedRestaurants(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
+        User user = userDetails.getUser();
+        Page<RestaurantResponseDto> likedRestaurants = restaurantService.getLikedRestaurants(user.getId(), pageable);
+        return of(HttpStatus.OK, "좋아요한 가게 목록을 조회합니다.", likedRestaurants);
+    }
+
 }

@@ -2,12 +2,15 @@ package com.sparta.redirect_outsourcing.domain.restaurant.service;
 
 import com.sparta.redirect_outsourcing.domain.restaurant.dto.requestDto.RestaurantCreateRequestDto;
 import com.sparta.redirect_outsourcing.domain.restaurant.dto.requestDto.RestaurantUpdateRequestDto;
+import com.sparta.redirect_outsourcing.domain.restaurant.dto.responseDto.LikedRestaurantResponseDto;
 import com.sparta.redirect_outsourcing.domain.restaurant.dto.responseDto.RestaurantResponseDto;
 import com.sparta.redirect_outsourcing.domain.restaurant.entity.Restaurant;
 import com.sparta.redirect_outsourcing.domain.restaurant.repository.RestaurantAdapter;
 import com.sparta.redirect_outsourcing.domain.user.entity.User;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
@@ -55,5 +58,18 @@ public class RestaurantService {
         return new RestaurantResponseDto(restaurant);
     }
 
+    private LikedRestaurantResponseDto convertToDto(Restaurant restaurant) {
+        return LikedRestaurantResponseDto.builder()
+                .id(restaurant.getId())
+                .name(restaurant.getName())
+                .address(restaurant.getAddress())
+                .description(restaurant.getDescription())
+                .likeCount(restaurant.getLikeCount())
+                .build();
+    }
 
+    public Page<LikedRestaurantResponseDto> getLikedRestaurants(Long userId, Pageable pageable) {
+        Page<Restaurant> likedRestaurants = restaurantAdapter.findLikedRestaurantsByUserId(userId, pageable);
+        return likedRestaurants.map(this::convertToDto);
+    }
 }

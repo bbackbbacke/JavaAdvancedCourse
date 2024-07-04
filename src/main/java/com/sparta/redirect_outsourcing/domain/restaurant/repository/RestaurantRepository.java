@@ -9,6 +9,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
     Restaurant findRestaurantByName(String name);
     long countLikesById(Long restaurantId);
 
-    Page<Restaurant> findByLikedByUserId(Long userId, Pageable pageable);
+    Page<Restaurant> findLikedRestaurantsByUserId(Long userId, Pageable pageable);
 
 }

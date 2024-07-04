@@ -21,6 +21,8 @@ public class RestaurantResponseDto {
     private LocalDateTime createdAt;
     private int likeCount;
 
+
+
     public RestaurantResponseDto(Restaurant restaurant) {
         this.name = restaurant.getName();
         this.address = restaurant.getAddress();
