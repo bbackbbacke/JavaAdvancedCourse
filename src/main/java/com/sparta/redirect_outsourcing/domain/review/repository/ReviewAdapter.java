@@ -6,6 +6,8 @@ import com.sparta.redirect_outsourcing.exception.custom.review.ReviewException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class ReviewAdapter {
         return reviewRepository.findAll();
     }
 
-    public List<Review> findByRestaurantId(Long restaurantId){
+    public List<Review> findByRestaurantId(Long restaurantId) {
         return reviewRepository.findAllByRestaurantId(restaurantId);
     }
 
@@ -39,4 +41,7 @@ public class ReviewAdapter {
         return reviewRepository.countLikesById(reviewId);
     }
 
+    public Page<Review> findLikedReviewsByUserId(Long userId, Pageable pageable) {
+        return reviewRepository.findLikedReviewsByUserId(userId, pageable);
+    }
 }

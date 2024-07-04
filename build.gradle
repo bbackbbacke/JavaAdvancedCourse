@@ -23,16 +23,6 @@ repositories {
     mavenCentral()
 }
 
-//Qclass가 생성될 곳을 정의한다.
-def querydslSrcDir = 'src/main/generated'
-sourceSets {
-    main {
-        java {
-            srcDirs += [ querydslSrcDir ]
-        }
-    }
-}
-
 dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -60,12 +50,24 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
     // OAuth2 Client
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    // QueryDSL
+    // Query DSL
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+def generated = 'src/main/generated'
+
+// QueryDSL QClass 파일 생성 위치 지정
+tasks.withType(JavaCompile).configureEach {
+    options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+// gradle clean 시 QClass 디렉토리 삭제
+clean {
+    delete file(generated)
 }

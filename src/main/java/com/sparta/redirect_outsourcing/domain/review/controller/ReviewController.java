@@ -7,9 +7,12 @@ import com.sparta.redirect_outsourcing.common.ResponseCodeEnum;
 import com.sparta.redirect_outsourcing.common.ResponseUtils;
 import com.sparta.redirect_outsourcing.domain.review.dto.ReviewRequestDto;
 import com.sparta.redirect_outsourcing.domain.review.dto.ReviewResponseDto;
+import com.sparta.redirect_outsourcing.domain.review.entity.Review;
 import com.sparta.redirect_outsourcing.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -60,5 +63,10 @@ public class ReviewController {
         return ResponseUtils.of(HttpStatus.OK,"리뷰 조회 성공",reviews);
     }
 
+    @GetMapping("/reviews/liked")
+    public ResponseEntity<DataResponseDto<Page<Review>>> findLikedReviewsByUserId(@RequestParam Long userId, Pageable pageable) {
+        Page<Review> reviews = reviewService.findLikedReviewsByUserId(userId, pageable);
+        return ResponseUtils.of(HttpStatus.OK, "좋아요 단 리뷰 조회 성공", reviews);
+    }
 
 }

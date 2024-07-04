@@ -32,6 +32,7 @@ import java.util.List;
 public class UserService {
     private final UserAdapter userAdapter;
     private final PasswordEncoder passwordEncoder;
+    private final likeService likeService;
 
     @Value("${admin-password}")
     private String adminPassword;
@@ -105,13 +106,33 @@ public class UserService {
             }
         }
         User updatedUser = userAdapter.save(user);
-        return new ProfileResponseDto(updatedUser.getNickname(), updatedUser.getIntroduce(), updatedUser.getPictureUrl());
+
+        long likedPostsCount = likeService.getLikedPostsCount(user.getId());
+        long likedCommentsCount = likeService.getLikedCommentsCount(user.getId());
+
+        return new ProfileResponseDto(
+                updatedUser.getNickname(),
+                updatedUser.getIntroduce(),
+                updatedUser.getPictureUrl(),
+                likedPostsCount,
+                likedCommentsCount
+        );
     }
 
     // 프로필 조회
+    // Update the getProfile method
     public ProfileResponseDto getProfile(Long userId) {
         User user = userAdapter.findById(userId);
-        return new ProfileResponseDto(user.getNickname(), user.getIntroduce(), user.getPictureUrl());
+        long likedPostsCount = likeService.getLikedPostsCount(userId);
+        long likedCommentsCount = likeService.getLikedCommentsCount(userId);
+
+        return new ProfileResponseDto(
+                user.getNickname(),
+                user.getIntroduce(),
+                user.getPictureUrl(),
+                likedPostsCount,
+                likedCommentsCount
+        );
     }
 
     // 로그아웃

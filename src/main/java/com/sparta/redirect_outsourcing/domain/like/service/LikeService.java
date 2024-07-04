@@ -71,4 +71,10 @@ public class LikeService {
     }
 }
 
+public long getLikedPostsCount(Long userId) {
+    return likeAdapter.countLikedPostsByUserId(userId);
+}
 
+public long getLikedCommentsCount(Long userId) {
+    return likeAdapter.countLikedCommentsByUserId(userId);
+}

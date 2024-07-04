@@ -35,4 +35,12 @@ public class LikeAdapter {
     public Page<Like> findByUserId(Long userId, Pageable pageable) {
         return likeRepository.findByUserId(userId, pageable);
     }
+
+    public long countLikedPostsByUserId(Long userId) {
+        return likeRepository.countByUserIdAndReviewIsNotNull(userId);
+    }
+
+    public long countLikedCommentsByUserId(Long userId) {
+        return likeRepository.countByUserIdAndCommentIsNotNull(userId);
+    }
 }

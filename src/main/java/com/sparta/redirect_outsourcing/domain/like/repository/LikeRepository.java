@@ -14,4 +14,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     void deleteByUserIdAndReviewId(Long userId, Long reviewId);
     boolean existsByUserAndReview(User user, Review review);
     Page<Like> findByUserId(Long userId, Pageable pageable);
+    long countByUserIdAndReviewIsNotNull(Long userId);
+    long countByUserIdAndCommentIsNotNull(Long userId);
 }
